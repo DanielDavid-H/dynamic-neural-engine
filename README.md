@@ -25,12 +25,16 @@
 # Dataset and Functions
 * We are going to make our model learn a Full adder.
 * This is a classification probem so we use both leaky relu and the sigmoid function.
-* The relu function f(x):{x>0,x
-                         x<0,0.01*x}
+* The relu function
+
+                    f(x):{x>0,x
+                          x<0,0.01*x}
                     f'(x):{x>0,1
                            x<0,0.01}
-* The sigmoid function f(x): 1/1+ e power(-x)
-                       f'(x): x(1-x)
+* The sigmoid function
+
+                    f(x): 1/1+ e power(-x)
+                    f'(x): x(1-x)
 
 
 
