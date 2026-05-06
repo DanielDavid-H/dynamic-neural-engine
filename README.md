@@ -43,8 +43,8 @@ Follow these steps to set up the environment and run the dynamic neural engine o
 Open your terminal and run the following command to download the project:
 
 
-* git clone https://github.com/DanielDavid-H/dynamic-neural-network.git
-* cd dynamic-neural-network
+* git clone https://github.com/DanielDavid-H/dynamic-neural-engine.git
+* cd dynamic-neural-engine
 
 2. Install Dependencies
 This project requires NumPy for matrix mathematics and Matplotlib for visualizing the training loss.
@@ -56,7 +56,7 @@ This project requires NumPy for matrix mathematics and Matplotlib for visualizin
 
 Run the main script to start the training process.
 
-python dynamic-neural-network.py
+python dynamic-neural-engine.py
 
 4. Training & Prediction
 
