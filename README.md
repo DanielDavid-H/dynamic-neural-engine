@@ -35,6 +35,37 @@
 
                     f(x): 1/1+ e power(-x)
                     f'(x): x(1-x)
+# How To setup and run
+🚀 How to Run
+Follow these steps to set up the environment and run the dynamic neural engine on your local machine.
+
+1. Clone the Repository
+Open your terminal and run the following command to download the project:
+
+
+* git clone https://github.com/DanielDavid-H/dynamic_neural_network.git
+* cd dynamic_neural_network
+
+2. Install Dependencies
+This project requires NumPy for matrix mathematics and Matplotlib for visualizing the training loss.
+
+
+* pip install numpy matplotlib
+
+3. Execute the Model
+
+Run the main script to start the training process.
+
+python dynamic_neural_network.py
+
+4. Training & Prediction
+
+Step A: The model will ask number of hidden layers.
+
+Step B: The model will train for 5,000 iterations using backpropagation.
+
+Step C: A Loss Curve window will pop up.
+
 
 
 
