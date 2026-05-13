@@ -1,125 +1,106 @@
 import numpy as np
-import matplotlib.pyplot as plt
-x = np.array([[0,0,0],[0,0,1],[0,1,0],[1,0,0],[0,1,1],[1,0,1],[1,1,0],[1,1,1]])
-y = np.array([[0,0],[1,0],[1,0],[1,0],[0,1],[0,1],[0,1],[1,0]])
-i_ = 3
-h_ = 5 
-o_ = 2
-layers = int(input("enter no.of hidden_layers:"))
-g = 0.9
-loss =[]
-
-w_lst = []
-wf_lst = []
-b_lst = []
-bf_lst = []
-v_lst = []
-bv_lst = []
-h_lst = []
-z_lst = []
-de_lst= []
-for i in range(0,layers+1):
-    if i ==0:
-      w = np.random.randn(i_,h_)*np.sqrt(2/i_)
-      b = np.zeros((1,h_))
-      w_lst.append(w)
-      b_lst.append(b)
-      v = np.zeros_like(w)
-      bv = np.zeros_like(b)
-      v_lst.append(v)
-      bv_lst.append(bv)
-      wf = np.zeros_like(w)
-      bf = np.zeros_like(b)
-      wf_lst.append(wf)
-      bf_lst.append(bf)
-    elif i == layers:
-        w = np.random.randn(h_,o_)*np.sqrt(2/h_)
-        b = np.zeros((1,o_))
-        w_lst.append(w)
-        b_lst.append(b)
-        v = np.zeros_like(w)
-        bv = np.zeros_like(b)
-        v_lst.append(v)
-        bv_lst.append(bv)
-        wf = np.zeros_like(w)
-        bf = np.zeros_like(b)
-        wf_lst.append(wf)
-        bf_lst.append(bf)
-    else:
-        w = np.random.randn(h_,h_)*np.sqrt(2/h_)
-        b = np.zeros((1,h_))
-        w_lst.append(w)
-        b_lst.append(b)
-        v = np.zeros_like(w)
-        bv = np.zeros_like(b)
-        v_lst.append(v)
-        bv_lst.append(bv)
-        wf = np.zeros_like(w)
-        bf = np.zeros_like(b)
-        wf_lst.append(wf)
-        bf_lst.append(bf)
-        
-def relu(x):
-    return np.where(x>0,x,0.01*x)
-def relu_derivative(x):
-    return np.where(x>0,1,0.01)
-def sigmoid(x):
-    return 1/(1+np.exp(-x))
-def sigmoid_derivative(x):
-    return x*(1-x)
-
-lr = 0.01
-for j in range(5000):
-    h_lst = []
-    z_lst = []
-    de_lst= []
-    for n in range(len(v_lst)):
-        wf_lst[n] = w_lst[n] -v_lst[n]*g
-        bf_lst[n] = b_lst[n] -bv_lst[n]*g
-    h = x@wf_lst[0] + bf_lst[0]
-    h_lst.append(h)
-    z = relu(h)
-    z_lst.append(z)
-    if layers == 1:
-        h = z@wf_lst[1] + bf_lst[1]
-        h_lst.append(h)
-        y_pred = sigmoid(h)
-    else:
-        for i in range(1,len(w_lst)):
-            h = z@wf_lst[i] + bf_lst[i]
-            h_lst.append(h)
-            if i != len(w_lst) - 1:
-                z = relu(h)
-                z_lst.append(z)
+class classifier:
+    def __init__(self,inp,hid,out,layers):
+        self.w_lst = []
+        self.b_lst = []
+        self.h_lst = []
+        self.z_lst = []
+        self.de_lst = []
+        self.v_lst = []
+        self.bv_lst = []
+        self.wf_lst = []
+        self.bf_lst = []
+        for i in range(0,layers+1):
+            if i ==0:
+                w = np.random.randn(inp,hid)*np.sqrt(2/inp)
+                self.w_lst.append(w)
+                b = np.zeros((1,hid))
+                self.b_lst.append(b)
+                v = np.zeros_like(w)
+                self.v_lst.append(v)
+                bv = np.zeros_like(b)
+                self.bv_lst.append(bv)
+                wf = np.zeros_like(w)
+                self.wf_lst.append(wf)
+                bf = np.zeros_like(b)
+                self.bf_lst.append(bf)
+            elif i == layers:
+                w = np.random.randn(hid,out)*np.sqrt(2/hid)
+                self.w_lst.append(w)
+                b = np.zeros((1,out))
+                self.b_lst.append(b)
+                v = np.zeros_like(w)
+                self.v_lst.append(v)
+                bv = np.zeros_like(b)
+                self.bv_lst.append(bv)
+                wf = np.zeros_like(w)
+                self.wf_lst.append(wf)
+                bf = np.zeros_like(b)
+                self.bf_lst.append(bf)
             else:
-                y_pred = sigmoid(h)
-    de = (y_pred - y)
-    de_lst.append(de)
-    for k in range(1,len(w_lst)):
-        e = de@wf_lst[-k].T
-        de = e*relu_derivative(h_lst[-k-1])
-        de_lst.append(de)
-    de_lst = de_lst[::-1]
-    grad1=(x.T@de_lst[0])*lr
-    v_lst[0] = grad1 + v_lst[0]*g
-    w_lst[0]-=v_lst[0]
-    grad2=(np.sum(de_lst[0],axis=0,keepdims=True))*lr
-    bv_lst[0] = grad2 + bv_lst[0]*g
-    b_lst[0]-=bv_lst[0]
-    for l in range(1,len(w_lst)):
-        grad=(z_lst[l-1].T@de_lst[l])
-        v_lst[l] = grad*lr + v_lst[l]*g
-        w_lst[l]-=v_lst[l]
-        grad=(np.sum(de_lst[l],axis=0,keepdims=True))*lr
-        bv_lst[l] = grad*lr + bv_lst[l]*g
-        b_lst[l]-=bv_lst[l]
-    if j%1000 ==0:
-        l = np.mean(np.square(y_pred - y))
-        loss.append(l)
-        print(f"The loss is {l}")
-plt.plot(loss)
-plt.xlabel("iterations")
-plt.ylabel("loss")
-plt.grid(True)
-plt.show()
+                w = np.random.randn(hid,hid)*np.sqrt(2/hid)
+                self.w_lst.append(w)
+                b = np.zeros((1,hid))
+                self.b_lst.append(b)
+                v = np.zeros_like(w)
+                self.v_lst.append(v)
+                bv = np.zeros_like(b)
+                self.bv_lst.append(bv)
+                wf = np.zeros_like(w)
+                self.wf_lst.append(wf)
+                bf = np.zeros_like(b)
+                self.bf_lst.append(bf)
+    def relu(self,x):
+        return np.where(x>0,x,0.01*x)
+    def relu_derivative(self,x):
+        return np.where(x>0,1,0.01)
+    def sigmoid(self,x):
+        return 1/(1+np.exp(-x))
+    def train(self,x,y,lr = 0.01,g = 0.9,epochs = 10000):
+        for i in range(epochs + 1):
+           for n in range(len(self.w_lst)):
+               self.wf_lst[n] = self.w_lst[n] - self.v_lst[n]*g
+               self.bf_lst[n] = self.b_lst[n] - self.bv_lst[n]*g
+           h = x@self.w_lst[0] + self.b_lst[0]
+           self.h_lst.append(h)
+           z = self.relu(h + x)
+           self.z_lst.append(z)
+           for j in range(1,len(self.w_lst)):
+                h = z@self.wf_lst[j] + self.bf_lst[j]
+                self.h_lst.append(h)
+                if j == len(self.w_lst) - 1:
+                   y_pred = self.sigmoid(h)
+                else:
+                   z = self.relu(h+x)
+                   self.z_lst.append(z)
+           doe = y_pred - y
+           self.de_lst.append(doe)
+           for k in range(1,len(self.w_lst)):
+                he = doe@self.wf_lst[-k].T
+                doe = he*self.relu_derivative(self.h_lst[-k-1] + 1)
+                self.de_lst.append(doe)
+           self.de_lst = self.de_lst[::-1]
+           grad = x.T@self.de_lst[0]
+           self.v_lst[0] = grad*lr + self.v_lst[0]*g
+           self.w_lst[0]-=self.v_lst[0]
+           grad = np.sum(self.de_lst[0],axis=0,keepdims=True)
+           self.bv_lst[0] = grad*lr + self.bv_lst[0]*g
+           self.b_lst[0]-=self.bv_lst[0]
+           for l in range(1,len(self.w_lst)):
+               grad = self.z_lst[l-1].T@self.de_lst[l]
+               self.v_lst[l] = grad*lr + self.v_lst[l]*g
+               self.w_lst[l]-=self.v_lst[l]
+               grad = np.sum(self.de_lst[l],axis=0,keepdims=True)
+               self.bv_lst[l] = grad*lr + self.bv_lst[l]*g
+               self.b_lst[l]-=self.bv_lst[l]
+           if i %1000 == 0:
+               l = np.mean(np.square(y_pred - y))
+               print(f"the loss is {l}")
+           self.h_lst = []
+           self.z_lst = []
+           self.de_lst = []
+x = np.array([[0,0,0],[0,0,1],[0,1,0],[1,0,0],[0,1,1],[1,0,1],[1,1,0],[1,1,1]])
+y = np.array([[0,0],[1,0],[1,0],[1,0],[0,1],[0,1],[0,1],[1,1]])
+model = classifier(3,3,2,2)
+model.train(x,y)
 
