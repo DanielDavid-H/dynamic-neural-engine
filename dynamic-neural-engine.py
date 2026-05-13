@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 class classifier:
     def __init__(self,inp,hid,out,layers):
         self.w_lst = []
@@ -10,6 +11,8 @@ class classifier:
         self.bv_lst = []
         self.wf_lst = []
         self.bf_lst = []
+        self.loss = []
+        
         for i in range(0,layers+1):
             if i ==0:
                 w = np.random.randn(inp,hid)*np.sqrt(2/inp)
@@ -96,11 +99,22 @@ class classifier:
            if i %1000 == 0:
                l = np.mean(np.square(y_pred - y))
                print(f"the loss is {l}")
+               self.loss.append(l)
            self.h_lst = []
            self.z_lst = []
            self.de_lst = []
+       
+    def plot(self):
+        plt.plot(self.loss)
+        plt.xlabel("Iterations")
+        plt.ylabel("loss (MSE)")
+        plt.grid(True)
+        plt.show()
 x = np.array([[0,0,0],[0,0,1],[0,1,0],[1,0,0],[0,1,1],[1,0,1],[1,1,0],[1,1,1]])
 y = np.array([[0,0],[1,0],[1,0],[1,0],[0,1],[0,1],[0,1],[1,1]])
 model = classifier(3,3,2,2)
 model.train(x,y)
+model.plot()
+
+
 
