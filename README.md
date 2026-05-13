@@ -56,7 +56,7 @@ This project requires NumPy for matrix multiplication and Matplotlib for visuali
 
 Run the main script to start the training process.
 
-python dynamic-neural-engine.py
+python dynamic engine.py
 
 4. Training & Prediction
 
