@@ -44,10 +44,10 @@ Open your terminal and run the following command to download the project:
 
 
 * git clone https://github.com/DanielDavid-H/dynamic-neural-engine.git
-* cd dynamic-neural-engine
+* cd dynamic-classifier
 
 2. Install Dependencies
-This project requires NumPy for matrix mathematics and Matplotlib for visualizing the training loss.
+This project requires NumPy for matrix multiplication and Matplotlib for visualizing the training loss.
 
 
 * pip install numpy matplotlib
