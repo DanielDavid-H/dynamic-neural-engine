@@ -62,7 +62,7 @@ python dynamic-neural-engine.py
 
 Step A: The model will ask number of hidden layers.
 
-Step B: The model will train for 5,000 iterations using backpropagation.
+Step B: The model will train for 10,000 iterations using backpropagation.
 
 Step C: The model will print the loss values and a Loss Curve window will pop up.
 
