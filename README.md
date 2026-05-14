@@ -3,6 +3,7 @@
 * This is a dynamic neural engine which can create however many hidden layers in the network the user wants.
 * This project only uses numpy for better understanding of how the model can create n number of layers.
 * The model also uses Nestorov Accelarated Gradient to make the model converge faster.
+* The model also uses residual highways to further improve convergence speed and handle the vanishing gradient problem.
 
 # Working Principle
 * The model uses basic for loops to create the neural layers and appends them in a list so that we can use them for the forward pass and backpropagation.
@@ -16,11 +17,14 @@
   over shooting and helps the model converge even faster
 * if SGD is a person walking down the slope and momentum is a bowling ball which is rolling over building momentum and escaping local minimas using the momentum, the NAG is a smart ball which corrects it's speed
   based on the terrain before it.
+* Residual highways is an optimization technique where we skip neurons if the gradients are too low by adding the input value to the function between layers and it also acts as a safe check against the vanishing gradient problem.
+* The formula is y = f(x) + x
+* The version we are using is resnet v1 where we add the input to the pre activation function.
 
 # Goal
 * To show that more number of hidden layers does not always mean faster convergence.
-* To show the power of NAGs
-* To find what is the ideal number of hidden layers for learning Full adder in 5000 iterations.
+* To show the power of NAGs and resnet
+* To find what is the ideal number of hidden layers for learning Full adder in 10000 iterations.
 
 # Dataset and Functions
 * We are going to make our model learn a Full adder.
