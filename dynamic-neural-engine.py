@@ -110,9 +110,10 @@ class classifier:
         plt.ylabel("loss (MSE)")
         plt.grid(True)
         plt.show()
+a = int(input("enter no. of hidden layers:"))
 x = np.array([[0,0,0],[0,0,1],[0,1,0],[1,0,0],[0,1,1],[1,0,1],[1,1,0],[1,1,1]])
 y = np.array([[0,0],[1,0],[1,0],[1,0],[0,1],[0,1],[0,1],[1,1]])
-model = classifier(3,3,2,2)
+model = classifier(3,3,2,a)
 model.train(x,y)
 model.plot()
 
